@@ -1,18 +1,29 @@
 {
   "name": "precompose-props",
-  "description": "Prop mapping made easy",
+  "description": "Prop mapping made easy.",
   "version": "0.0.1",
   "source": "src/index.js",
   "module": "dist/precompose-props.es.js",
   "main": "dist/precompose-props.js",
   "umd:main": "dist/precompose-props.umd.js",
   "scripts": {
-    "build": "npm run build:main",
-    "build:main": "microbundle",
+    "build": "npm-run-all bundle size",
+    "bundle": "microbundle",
+    "size": "strip-json-comments --no-whitespace dist/precompose-props.js | gzip-size && bundlesize",
     "test": "npm run build && ava"
   },
+  "bundlesize": [
+    {
+      "path": "dist/precompose-props.js",
+      "maxSize": "1kb"
+    }
+  ],
   "devDependencies": {
-    "microbundle": "^0.4.3"
+    "bundlesize": "^0.16.0",
+    "gzip-size-cli": "^2.1.0",
+    "microbundle": "^0.4.3",
+    "npm-run-all": "^4.1.2",
+    "strip-json-comments-cli": "^1.0.1"
   },
   "dependencies": {
     "ramda": "^0.25.0"
