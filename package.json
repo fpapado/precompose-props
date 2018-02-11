@@ -12,7 +12,7 @@
     "size": "strip-json-comments --no-whitespace dist/precompose-props.js | gzip-size && bundlesize",
     "docs": "documentation readme src/*.js -q --section API && npm run -s fixreadme",
     "fixreadme": "node -e 'var fs=require(\"fs\");fs.writeFileSync(\"README.md\", fs.readFileSync(\"README.md\", \"utf8\").replace(/^-   /gm, \"- \"))'",
-    "test": "npm run build && ava"
+    "test": "npm run build && jest"
   },
   "bundlesize": [
     {
@@ -20,20 +20,18 @@
       "maxSize": "3kb"
     }
   ],
-  "devDependencies": {
-    "bundlesize": "^0.16.0",
-    "documentation": "^5.4.0",
-    "gzip-size-cli": "^2.1.0",
-    "microbundle": "^0.4.3",
-    "npm-run-all": "^4.1.2",
-    "strip-json-comments-cli": "^1.0.1"
-  },
-  "dependencies": {
-    "ramda": "^0.25.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fpapado/precompose-props.git"
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": true
+          }
+        }
+      ]
+    ],
+    "plugins": ["transform-react-jsx"]
   },
   "keywords": [
     "react",
@@ -41,10 +39,29 @@
     "component",
     "contramap"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpapado/precompose-props.git"
+  },
   "author": "Fotis Papadogeorgopoulos <fotis@fpapado.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fpapado/precompose-props/issues"
   },
-  "homepage": "https://github.com/fpapado/precompose-props#readme"
+  "homepage": "https://github.com/fpapado/precompose-props#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.2.2",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "bundlesize": "^0.16.0",
+    "documentation": "^5.4.0",
+    "gzip-size-cli": "^2.1.0",
+    "jest": "^22.2.2",
+    "microbundle": "^0.4.3",
+    "npm-run-all": "^4.1.2",
+    "strip-json-comments-cli": "^1.0.1"
+  },
+  "dependencies": {
+    "ramda": "^0.25.0"
+  }
 }

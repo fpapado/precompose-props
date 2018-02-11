@@ -9,6 +9,7 @@ function assign(obj, props) {
 
 // 1: A set of primitives
 // Helpers for mapping props to values; use these with concatProps
+// TODO: make fully monoids
 export const toggle = val => on => (on ? val : {});
 export const named = obj => key => obj[key];
 export const scale = arr => i => arr[i];
@@ -34,8 +35,7 @@ export const concatProps = propMap => props =>
 */
 export const concatAndMergeProps = propMap => props =>
   assign(
-    {},
-    pickBy((v, p) => !has(p, propMap), props),
+    assign({}, pickBy((v, p) => !has(p, propMap), props)),
     concatProps(propMap)(props)
   );
 
