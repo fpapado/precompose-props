@@ -2,14 +2,18 @@
   "name": "precompose-props",
   "description": "Prop mapping made easy",
   "version": "0.0.1",
-  "source": "src/precompose-props.js",
+  "source": "src/index.js",
   "module": "dist/precompose-props.es.js",
   "main": "dist/precompose-props.js",
   "umd:main": "dist/precompose-props.umd.js",
   "scripts": {
+    "build": "npm run build:main",
+    "build:main": "microbundle",
     "test": "npm run build && ava"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "microbundle": "^0.4.3"
+  },
   "dependencies": {
     "ramda": "^0.25.0"
   },
