@@ -1,5 +1,5 @@
 // import { mapObjIndexed, filter, has } from "ramda";
-const {map, toPairs, pickBy, has, mergeAll} = require('ramda');
+const {compose, map, toPairs, pickBy, has, mergeAll} = require('ramda');
 
 // 1: A set of primitives
 // Helpers for mapping props to values; use these with concatProps
@@ -12,7 +12,7 @@ const scale = arr => i => arr[i];
  * Or equivalently
  * contramap<T, P> = (Component: React.Component<P>, mapFn: T => P) => props: T => React.Component
 */
-const contramap = (Component, mapFn) => props => Component(mapFn(props));
+const contramap = mapFn => Component => props => Component(mapFn(props));
 
 // 2: Ways to compose them
 
@@ -26,51 +26,53 @@ const concatProps = propMap => props =>
  * then return the transformed ones and any props that are not higher
  * Use this in conjuction with contramap
 */
-const concatAndMerge = propMap => props => ({
+const concatAndMergeProps = propMap => props => ({
   ...pickBy((v, p) => !has(p, propMap), props),
   ...concatProps(propMap)(props)
 });
 
 // 3: A set of pre-composed things
 // withTheme<T, P> = (Component: React.Component<P>, propMap: T => P) => React.Component<T&P>
-// Takes any fn, merges
-const withThemeFn = (Component, mapFn) => contramap(Component, mapFn);
 // Assumes a propMap, merges
-const withTheme = (Component, propMap) => withThemeFn(Component, concatAndMerge(propMap));
+const withTheme = compose(contramap, concatAndMergeProps);
+// const withTheme = propMap => contramap(concatAndMergeProps(propMap));
+// const withTheme = propMap => props => contramap(concatAndMergeProps(propMap))(props);
 
 // mapTheme<T, P> = (Component: React.Component<P>, mapFn: T => P) => React.Component<T>
 // Assumes a propMap, does not merge
-const mapThemeFn = (Component, mapFn) => contramap(Component, mapFn);
-// Takes any fn, does not merge
-const mapTheme = (Component, propMap) => mapThemeFn(Component, concatProps(propMap));
+const mapTheme = compose(contramap, concatProps);
+// const mapTheme = propMap => contramap(concatProps(propMap));
+// const mapTheme = propMap => props => contramap(concatProps(propMap))(props);
+
+// NOTE:
+// If you require a custom map function, just use contramap(mapFn)(Component)
 
 // Tests
 console.log('Should have only the transformed and other lower props.');
 contramap(
-  console.log,
-  concatAndMerge({
+  concatAndMergeProps({
     bold: toggle({fontWeight: '5', color: 'red'}),
     textKind: named({
       title: {lineHeight: 'solid'},
       copy: {lineHeight: 'copy', measure: 'normal'}
     })
   })
-)({
+)(console.log)({
   bold: true,
   textKind: 'copy',
   children: '<H1>Hello, World</H1>'
 });
 
 console.log(
-  'Should be equivalent to calling contramap(concatAndMerge(mapObj)) directly'
+  'Should be equivalent to calling contramap(concatAndMergeProps(mapObj)) directly'
 );
-withTheme(console.log, {
+withTheme({
   bold: toggle({fontWeight: '5', color: 'red'}),
   textKind: named({
     title: {lineHeight: 'solid'},
     copy: {lineHeight: 'copy', measure: 'normal'}
   })
-})({
+})(console.log)({
   bold: true,
   textKind: 'copy',
   children: '<H1>Hello, World</H1>'
@@ -78,7 +80,6 @@ withTheme(console.log, {
 
 console.log('Should have only the transformed props.');
 contramap(
-  console.log,
   concatProps({
     bold: toggle({fontWeight: '5', color: 'red'}),
     textKind: named({
@@ -86,7 +87,7 @@ contramap(
       copy: {lineHeight: 'copy', measure: 'normal'}
     })
   })
-)({
+)(console.log)({
   bold: true,
   textKind: 'copy',
   children: '<H1>Hello, World</H1>'
@@ -95,13 +96,13 @@ contramap(
 console.log(
   'Should be equivalent to calling contramap(concatProps(mapObj)) directly'
 );
-mapTheme(console.log, {
+mapTheme({
   bold: toggle({fontWeight: '5', color: 'red'}),
   textKind: named({
     title: {lineHeight: 'solid'},
     copy: {lineHeight: 'copy', measure: 'normal'}
   })
-})({
+})(console.log)({
   bold: true,
   textKind: 'copy',
   children: '<H1>Hello, World</H1>'
