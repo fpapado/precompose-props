@@ -1,6 +1,12 @@
 // import { mapObjIndexed, filter, has } from "ramda";
 const {compose, map, toPairs, pickBy, has, mergeAll} = require('ramda');
 
+// Lighter Object.assign stand-in
+function assign(obj, props) {
+  for (let i in props) obj[i] = props[i];
+  return obj;
+}
+
 // 1: A set of primitives
 // Helpers for mapping props to values; use these with concatProps
 export const toggle = val => on => (on ? val : {});
@@ -26,10 +32,12 @@ export const concatProps = propMap => props =>
  * then return the transformed ones and any props that are not higher
  * Use this in conjuction with contramap
 */
-export const concatAndMergeProps = propMap => props => ({
-  ...pickBy((v, p) => !has(p, propMap), props),
-  ...concatProps(propMap)(props)
-});
+export const concatAndMergeProps = propMap => props =>
+  assign(
+    {},
+    pickBy((v, p) => !has(p, propMap), props),
+    concatProps(propMap)(props)
+  );
 
 // 3: A set of pre-composed things
 // withTheme<T, P> = (Component: React.Component<P>, propMap: T => P) => React.Component<T&P>
