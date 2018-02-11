@@ -1,5 +1,32 @@
 {
+  "name": "precompose-props",
+  "description": "Prop mapping made easy",
+  "version": "0.0.1",
+  "source": "src/precompose-props.js",
+  "module": "dist/precompose-props.es.js",
+  "main": "dist/precompose-props.js",
+  "umd:main": "dist/precompose-props.umd.js",
+  "scripts": {
+    "test": "npm run build && ava"
+  },
+  "devDependencies": {},
   "dependencies": {
     "ramda": "^0.25.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpapado/precompose-props.git"
+  },
+  "keywords": [
+    "react",
+    "preact",
+    "component",
+    "contramap"
+  ],
+  "author": "Fotis Papadogeorgopoulos <fotis@fpapado.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fpapado/precompose-props/issues"
+  },
+  "homepage": "https://github.com/fpapado/precompose-props#readme"
 }
