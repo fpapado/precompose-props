@@ -1,5 +1,5 @@
 // import { mapObjIndexed, filter, has } from "ramda";
-const {compose, map, toPairs, pickBy, has, mergeAll} = require('ramda');
+import {compose, map, toPairs, pickBy, has, mergeAll} from 'ramda';
 
 // Lighter Object.assign stand-in
 function assign(obj, props) {

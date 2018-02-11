@@ -17,7 +17,7 @@
   "bundlesize": [
     {
       "path": "dist/precompose-props.js",
-      "maxSize": "1kb"
+      "maxSize": "3kb"
     }
   ],
   "devDependencies": {
