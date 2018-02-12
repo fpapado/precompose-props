@@ -12,7 +12,9 @@
     "size": "strip-json-comments --no-whitespace dist/precompose-props.js | gzip-size && bundlesize",
     "docs": "documentation readme src/*.js -q --section API && npm run -s fixreadme",
     "fixreadme": "node -e 'var fs=require(\"fs\");fs.writeFileSync(\"README.md\", fs.readFileSync(\"README.md\", \"utf8\").replace(/^-   /gm, \"- \"))'",
-    "test": "npm run build && jest"
+    "test": "npm run build && jest",
+    "prepare": "npm t",
+    "release": "npm t && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
   "bundlesize": [
     {
@@ -33,6 +35,10 @@
     ],
     "plugins": ["transform-react-jsx"]
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "keywords": [
     "react",
     "preact",
