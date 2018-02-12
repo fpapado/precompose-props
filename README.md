@@ -1,6 +1,7 @@
 # Precompose-props
-
 > Prop mapping made easy.
+
+[![npm](https://img.shields.io/npm/v/precompose-props.svg)](https://www.npmjs.com/package/precompose-props)
 
 ## Table of Contents
 
