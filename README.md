@@ -28,8 +28,8 @@ Doing this manually has some annoying boilerplate, and leads to more noise than 
 
 Ideally, I would be able to do something like this:
 
-```js
-const Th = ({fontWeight, color, children}) => <th {fontWeight, color}>{children}</th>;
+```jsx
+const Th = ({fontWeight, color, children}) => <th style={{fontWeight, color}}>{children}</th>;
 
 const Cell = withTheme({bold: {fontWeight: '7', color: 'black'}})(Th);
 ```
@@ -51,6 +51,69 @@ I am not doing that, because calling .fold() would look out of place in our code
 Would be simple to add and fun to try though :)
 
 ## Usage
+```jsx
+import React from "react";
+import { render } from "react-dom";
+import {
+  withTheme,
+  named,
+  toggle,
+  contramap,
+  concatAndMergeProps
+} from "precompose-props";
+
+// The lower component
+const P = ({ measure, lineHeight, fontSize, fontWeight, children }) => (
+  <p style={{ maxWidth: measure, lineHeight, fontWeight, fontSize }}>
+    {children}
+  </p>
+);
+
+// Higher component
+const Text = withTheme({
+  bold: toggle({ fontWeight: "700" }),
+  kind: named(
+    { copy: { lineHeight: "1.5", measure: "34em" } },
+    { heading: { lineHeight: "1.25" } }
+  )
+})(P);
+
+// Equivalent forms
+// Using concatAndMergeProps directly with contramap
+const TextAlt = contramap(
+  concatAndMergeProps({
+    bold: toggle({ fontWeight: "700" }),
+    kind: named(
+      { copy: { lineHeight: "1.5", measure: "34em" } },
+      { heading: { lineHeight: "1.25" } }
+    )
+  })
+)(P);
+
+// Using contramap with a custom function
+/*
+mapFakeToProps(({bold, kind, ...rest}) => "Fill this in");
+const TextManual = contramap(mapFakeToProps)(P);
+*/
+
+const App = () => (
+  <div>
+    <Text kind="heading" fontSize="2rem" bold>
+      I am a Heading
+    </Text>
+    <Text kind="copy" fontSize="1rem">
+      This is a text oh this is a text, and would you guess, this is copy text
+      with max widths and stuff.
+    </Text>
+    <TextAlt kind="copy" fontSize="1rem">
+      This is a text oh this is a text, and would you guess, this is copy text
+      with max widths and stuff.
+    </TextAlt>
+  </div>
+);
+
+render(<App />, document.getElementById("root"));
+```
 
 ### Any abstraction you like
 
@@ -98,6 +161,9 @@ mapFn: higherPropValue => Partial<LowerProps>`.
 
 If you see a pattern there, it's because the latter are simply compositions of the former!
 Functions are curried by default. I have not used Ramda's `curry`; this is open to change.
+
+### Examples
+[Edit the example above on CodeSandbox](https://codesandbox.io/s/0107ywo83l)
 
 ### API
 
