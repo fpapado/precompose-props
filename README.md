@@ -92,11 +92,9 @@ Functions are curried by default. I have not used Ramda's `curry`; this is open 
 
 -   Types
 -   Example folder
--   Bundle and publish
 
 ## Inspiration
-- Dr. Boolean for his talks on functional JS. Even when the language is not the best for it, I 
-will occasionally run into cases where I think "oh that can be a monoid" or "the sequence of these
-operations can be separate".
+- Brian Lonsdorf (drboolean) for his talks on functional JS. Even when the language is not the best for it, I
+will occasionally run into cases where I think about concatenation or the order of operations.
 - Jason Miller (developit) for his package build setups, and `microbundle`. They were a great starting
 point to figure out how to publish this damn thing.

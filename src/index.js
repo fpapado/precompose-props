@@ -1,11 +1,5 @@
 import {toPairs, pickBy, has, mergeAll} from 'ramda';
 
-// Lighter Object.assign stand-in
-function assign(obj, props) {
-  for (let i in props) obj[i] = props[i];
-  return obj;
-}
-
 // 1: A set of primitives
 // Helpers for mapping props to values; use these with concatProps
 // TODO: make fully monoids
@@ -34,23 +28,19 @@ export const concatProps = propMap => props =>
  * Use this in conjuction with contramap
 */
 export const concatAndMergeProps = propMap => props =>
-  assign(
-    assign({}, pickBy((v, p) => !has(p, propMap), props)),
+  mergeAll([
+    pickBy((v, p) => !has(p, propMap), props),
     concatProps(propMap)(props)
-  );
+  ]);
 
 // 3: A set of pre-composed things
-// withTheme<T, P> = (Component: React.Component<P>, propMap: T => P) => React.Component<T&P>
-// Assumes a propMap, merges
-export const withTheme = p => contramap(concatAndMergeProps(p));
-// const withTheme = propMap => contramap(concatAndMergeProps(propMap));
-// const withTheme = propMap => props => contramap(concatAndMergeProps(propMap))(props);
+// NOTE: If you require a custom map function, just use contramap(mapFn)(Component)
+// NOTE 2: These functions return a function that takes props (e.g a React Component)
 
-// mapTheme<T, P> = (Component: React.Component<P>, mapFn: T => P) => React.Component<T>
-// Assumes a propMap, does not merge
-export const mapTheme = p => contramap(concatProps(p));
-// const mapTheme = propMap => contramap(concatProps(propMap));
-// const mapTheme = propMap => props => contramap(concatProps(propMap))(props);
+// Take a propMap, transform and merge the props given after
+// withTheme<T, P> = (Component: React.Component<P>, propMap: ???) => React.Component<T&(whatever else)>
+export const withTheme = propMap => contramap(concatAndMergeProps(propMap));
 
-// NOTE:
-// If you require a custom map function, just use contramap(mapFn)(Component)
+// Take a propMap, transform the props given after, but do not merge extras
+// mapTheme<T, P> = (Component: React.Component<P>, propMap: ???) => React.Component<T>
+export const mapTheme = propMap => contramap(concatProps(propMap));
