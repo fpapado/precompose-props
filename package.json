@@ -1,7 +1,7 @@
 {
   "name": "precompose-props",
   "description": "Prop mapping made easy.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "source": "src/index.js",
   "module": "dist/precompose-props.es.js",
   "main": "dist/precompose-props.js",
