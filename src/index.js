@@ -1,5 +1,4 @@
-// import { mapObjIndexed, filter, has } from "ramda";
-import {compose, map, toPairs, pickBy, has, mergeAll} from 'ramda';
+import {toPairs, pickBy, has, mergeAll} from 'ramda';
 
 // Lighter Object.assign stand-in
 function assign(obj, props) {
@@ -26,8 +25,9 @@ export const contramap = mapFn => Component => props => Component(mapFn(props));
 /* Take a map from higher props to lower props, and higher props then return the transformed ones
  * Use this if you want to merge other props yourself
 */
+// TODO: make more generic
 export const concatProps = propMap => props =>
-  mergeAll(map(([propName, fn]) => fn(props[propName]), toPairs(propMap)));
+  mergeAll(toPairs(propMap).map(([propName, fn]) => fn(props[propName])));
 
 /* Take a map from higher props to lower props, and higher props
  * then return the transformed ones and any props that are not higher
@@ -42,13 +42,13 @@ export const concatAndMergeProps = propMap => props =>
 // 3: A set of pre-composed things
 // withTheme<T, P> = (Component: React.Component<P>, propMap: T => P) => React.Component<T&P>
 // Assumes a propMap, merges
-export const withTheme = compose(contramap, concatAndMergeProps);
+export const withTheme = p => contramap(concatAndMergeProps(p));
 // const withTheme = propMap => contramap(concatAndMergeProps(propMap));
 // const withTheme = propMap => props => contramap(concatAndMergeProps(propMap))(props);
 
 // mapTheme<T, P> = (Component: React.Component<P>, mapFn: T => P) => React.Component<T>
 // Assumes a propMap, does not merge
-export const mapTheme = compose(contramap, concatProps);
+export const mapTheme = p => contramap(concatProps(p));
 // const mapTheme = propMap => contramap(concatProps(propMap));
 // const mapTheme = propMap => props => contramap(concatProps(propMap))(props);
 
