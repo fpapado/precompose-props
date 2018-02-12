@@ -1,11 +1,6 @@
 import {toPairs, pickBy, has, mergeAll} from 'ramda';
 
 // 1: A set of primitives
-// Helpers for mapping props to values; use these with concatProps
-// TODO: make fully monoids
-export const toggle = val => on => (on ? val : {});
-export const named = obj => key => obj[key];
-export const scale = arr => i => arr[i];
 
 /* "Preprocess" a set of props and pass the transformed ones to the component
  * contramap<T, P> = (Component: React.Component<P>, mapFn: T => P) => React.Component<T>
@@ -15,6 +10,9 @@ export const scale = arr => i => arr[i];
 export const contramap = mapFn => Component => props => Component(mapFn(props));
 
 // 2: Ways to compose them
+// Helpers for mapping props to values; use these with concatProps
+export const toggle = val => on => (on ? val : {});
+export const named = obj => key => obj[key];
 
 /* Take a map from higher props to lower props, and higher props then return the transformed ones
  * Use this if you want to merge other props yourself
