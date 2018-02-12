@@ -60,7 +60,7 @@ Another piece of wisdom by Dr. Boolean (I'm a fan, can't you tell?) is on API de
 
 Armed with that thought, here are the functions provided and their use cases, lower- to higher- level.
 
-Low-level
+** Low-level **
 
 -   `contramap`
       apply a mapping function from one set of props to another, pass to component
@@ -71,7 +71,22 @@ Low-level
 -   `concatAndMergeProps`
       concatenate props according to a specification, merges
 
-Higher-level
+** Specification Utilities **
+
+A specification is of the form
+```ts
+{[K in higherProp]: mapFn}
+
+mapFn: higherPropValue => Partial<LowerProps>`.
+```
+
+-   `toggle(obj)(value)`
+      return obj if value is true
+
+-   `named(obj)(value)`
+      return the entry at obj[value]
+
+** Higher-level **
 
 -   `withTheme`
       maps props with specification, merge other props
