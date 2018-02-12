@@ -1,13 +1,14 @@
 # Precompose-props
 > Prop mapping made easy.
 
+[![travis](https://travis-ci.org/fpapado/precompose-props.svg?branch=master)](https://travis-ci.org/fpapado/precompose-props)
 [![npm](https://img.shields.io/npm/v/precompose-props.svg)](https://www.npmjs.com/package/precompose-props)
 
 ## Table of Contents
 
 -   [Install](#install)
 -   [Motivation](#install)
--   [Usage](#install)
+-   [Usage](#usage)
 -   [API](#api)
 -   [License](#license)
 
