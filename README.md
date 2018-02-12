@@ -13,11 +13,29 @@
 -   [License](#license)
 
 ## Install
+This package is distributed via [npm](https://www.npmjs.com/get-npm).
 
 ```shell
-npm install --save precompose
+$ npm install --save precompose-props
 # or
-yarn add precompose
+$ yarn add precompose-props
+```
+
+Then import according to your modules model and bundler, such as [Rollup](https://rollupjs.org/guide/en) and [Webpack](https://webpack.js.org/)
+
+```js
+// ES6 Modules
+// For all possible functions to import, look at "export" in src/index.js
+import { contramap, withTheme } from 'precompose-props';
+
+/// CommonJS modules
+var precomposeProps = require('precompose-props');
+```
+
+A [UMD](https://github.com/umdjs/umd) version is also available on [unpkg](https://unpkg.com/):
+```html
+<script src="https://unpkg.com/precompose-props/dist/precompose-props.umd.js"></script>
+
 ```
 
 ## Motivation
