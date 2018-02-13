@@ -40,7 +40,7 @@ A [UMD](https://github.com/umdjs/umd) version is also available on [unpkg](https
 
 ## Motivation
 
-When working with React, I often want want to make a component that "wraps" the props of another component, mapping from one set to another.
+When working with React, I often want to make a component that "wraps" the props of another component, mapping from one set to another.
 This is especially true when composing styles; I want to have a higher-level "theme" prop, that collects a set of lower-level "style" props.
 Doing this manually has some annoying boilerplate, and leads to more noise than I'd like.
 
